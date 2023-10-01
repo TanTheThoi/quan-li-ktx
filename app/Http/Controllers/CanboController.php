@@ -28,12 +28,12 @@ class CanboController extends Controller
     #----------------Thêm phòng--------------------------------------------------------------------------------
     public function them_phong(Request $request){
         $id_khu = canboquanly::where('email',Auth::user()->email)->value('id_khu');
-        $phong = new phong();
-        $phong->sophong = $request->sophong;
-        $phong->id_khu = $id_khu;
-        $phong->snmax = $request->snmax;
-        $phong->gioitinh = $request->gioitinh;
-        $phong->save();
+        $data = $request->except('_token');
+        $data['id_khu'] = $id_khu;
+        $data['sncur'] = 0;
+        $lastId = \Illuminate\Support\Facades\DB::table('phong')->max('id');
+        $data['id'] = $lastId +1;
+        phong::create($data);
         return redirect()->back();
     }
     #-------------Xem thông tin Sinh viên ------------------------------------------------------------------------------
