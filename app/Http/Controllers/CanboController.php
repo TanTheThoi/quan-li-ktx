@@ -34,6 +34,7 @@ class CanboController extends Controller
         $lastId = \Illuminate\Support\Facades\DB::table('phong')->max('id');
         $data['id'] = $lastId +1;
         phong::create($data);
+
         return redirect()->back();
     }
     #-------------Xem thông tin Sinh viên ------------------------------------------------------------------------------
