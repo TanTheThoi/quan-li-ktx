@@ -1,6 +1,5 @@
 # Tên đề tài
 Website QL Ký Túc Xá
-Nhóm: 17
 Trường: Đại học Phenikaa
 
 ### Tài khoản test
