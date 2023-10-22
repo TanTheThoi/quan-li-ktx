@@ -6,12 +6,12 @@
 		<div class="form-group">
 			<label for="exampleInputEmail1" class="text-uppercase">Email:</label>
 			<input type="email" class="form-control" name="email" placeholder="Email"
-				required maxlength="30">
+				required maxlength="50">
 		</div>
 		<div class="form-group">
 			<label for="exampleInputEmail1" class="text-uppercase">Password:</label>
 			<input type="Password" class="form-control" name="password" required autocomplete="off" placeholder="Mật khẩu"
-            	required maxlength="30">
+            	required maxlength="50">
 		</div>
 		<div class="form-check">
 			<button type="submit" class="btn btn-primary">Đăng nhập</button>

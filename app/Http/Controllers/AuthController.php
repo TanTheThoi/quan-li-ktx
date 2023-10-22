@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\MessageBag;
@@ -51,46 +52,16 @@ class AuthController extends Controller
     public function getRegister() {
         return view('auth.register');
     }
-    public function postRegister(Request $request){
-        $rules = [
-            'email' =>'required|email',
-            'password' => 'required|min:6|confirmed',
-            'mssv' => 'required|min:8'
-        ];
-        $messages = [
-            'password.min' => 'Mật khẩu phải chứa ít nhất 6 ký tự',
-            'password.confirmed' => 'Xác nhận mật khẩu không đúng',
-            'mssv.min' => 'Mã số sinh viên có độ dài là 8 ký tự'
-        ];
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        } else {
-            $email = $request->input('email');
-            $count = users::where('email',$email)->count();
-            if($count>0){
-                return redirect()->back()->with(['flag'=>'danger','message'=>'Email đã được sử dụng']);   
-            }
-            else{
-                $mssv = $request->input(('mssv'));
-                $count1 = sinhvien::where('mssv',$mssv)->count();
-                if($count1>0){
-                    return redirect()->back()->with(['flag'=>'danger','message'=>'Mssv đã được sử dụng']);    
-                }
-                else{
-                    $user = new User();
-                    sinhvien::insert(['mssv'=>$mssv,'email'=>$email]);
-                    $user->name = $request->name;
-                    $user->email = $request->email;
-                    $user->password = Hash::make($request->password);
-                    $user->image = "user.jpg";
-                    $user->ltk = "sinhvien";
-                    $user->save();
-                    return redirect()->route('login')->with(['flag'=>'danger','message'=>'Tạo thành khoản thành công, mời bạn đăng nhập']);
-                }   
-            }
-        }
+    public function postRegister(UserRegisterRequest $request){
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->gender = $request->gender;
+        $user->image = "user.jpg";
+        $user->ltk = "sinhvien";
+        $user->save();
+        return redirect()->route('login')->with(['flag'=>'danger','message'=>'Tạo thành khoản thành công, mời bạn đăng nhập']);
     }
     public function getForgot() {
         return view('auth.forgot');

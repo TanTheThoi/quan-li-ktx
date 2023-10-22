@@ -25,7 +25,7 @@ class StudentController extends Controller
     }
 
     public function student_chonphong($id){
-        $ttphong = phong::where('id_khu', '=', $id)->paginate(7);
+        $ttphong = phong::where('id_khu', '=', $id)->where('gioitinh',Auth::user()->gender)->paginate(7);
         return view('pages.Student_dkphong', ['ttphong' => $ttphong]);
     }
 

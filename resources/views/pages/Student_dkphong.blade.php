@@ -28,7 +28,11 @@
                                 @else {{"Nữ"}}
                                 @endif
                             </td>
-                            <td><a href="{{route('get_student_dkphong',$p->id)}}"><button>Đăng ký</button></a></td>
+                            @if($p->sncur == $p->snmax)
+                                <td><button disabled>Đã hết chỗ</button></td>
+                            @else
+                                <td><a href="{{route('get_student_dkphong',$p->id)}}"><button>Đăng ký</button></a></td>
+                            @endif
                         </tr>
                     @endforeach
                 </table>
