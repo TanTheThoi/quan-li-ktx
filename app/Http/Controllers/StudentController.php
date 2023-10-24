@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\phong;
@@ -31,11 +32,18 @@ class StudentController extends Controller
 
     #----------Xem_trạng thái đăng_kí-----------------------------------------------------------------------------------
     public function student_xemdk(){
-        $mssv = sinhvien::where('email',Auth::user()->email)->value('mssv');
-        $lsdk = phieudangky::where('mssv','=',$mssv)->get();
-        $ttphong = phong::all();
-        $ttkhu = khuktx::all();
-        return view('pages.Student_xemdk',['lsdk'=>$lsdk,'ttphong'=>$ttphong,'ttkhu'=>$ttkhu]);
+        $data = phieudangky::with('room','student')->where('student_id',Auth::user()->id)->get();
+
+        foreach ($data as $item) {
+            $item->monthsDifference = Carbon::parse($item->end_date)->diffInMonths(Carbon::parse($item->start_date));
+            if($item->monthsDifference == 0){
+                $item->monthsDifference =  $item->room->khuktx->giaphong;
+            }else{
+                $item->monthsDifference =  $item->monthsDifference *  $item->room->khuktx->giaphong;
+            }
+        }
+
+        return view('pages.Student_xemdk',compact('data'));
     }
 
     #----------Thông_tin_cá_nhân----------------------------------------------------------------------------------------

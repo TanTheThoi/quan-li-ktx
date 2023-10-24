@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\UserRoom;
 use Illuminate\Http\Request;
 
 use App\phieudangky;
@@ -12,7 +13,8 @@ use App\phong;
 use App\khuktx;
 use App\users;
 use DB;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+
 
 use Illuminate\Support\MessageBag;
 
@@ -174,7 +176,37 @@ class LoadController extends Controller
 #----------Đăng_kí_phòng_ở------------------------------------------------------------------------------------------
 
     public function get_student_dkphong($id){
-        return view('pages.student_register');
+        $room = Phong::find($id);
+        if(!$room || $room->sncur == $room->snmax || $room->gioitinh != Auth::user()->gender){
+            return redirect()->back()->with(['flag2'=>'danger','message'=>'Bạn không thể truy cập']);
+        }
+        $room =phong::with('khuktx')->where('id',$id)->first();
+        return view('pages.student_register',compact('room'));
+    }
+
+    public function register_room(Request $request){
+        $validator = Validator::make($request->all(), [
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $check = UserRoom::where('user_id',Auth::user()->id)->first();
+        if($check){
+            return redirect()->back()->with('error', 'Bạn đã đăng ký phòng vui lòng kiểm tra lại');
+        }
+        $data = $request->all();
+        $data['student_id'] = Auth::user()->id;
+        $data['status'] = 'wait';
+        unset($data['_token']);
+        phieudangky::create($data);
+        return redirect()->route('student_xemdk')->with('success', 'Đăng ký thành công vui lòng chờ xét duyệt của admin');
+
+
     }
 
     #-------Sinh viên sửa thông tin-------------------------------------------------------------------------------------

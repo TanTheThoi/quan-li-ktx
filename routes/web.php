@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([\App\Http\Middleware\CheckStudent::class])->group(function () {
         Route::get('student_dkphong','StudentController@student_dkphong')->name('student_dkphong');
         Route::get('get_student_dkphong/{id}','LoadController@get_student_dkphong')->name('get_student_dkphong');
+        Route::post('register_room','LoadController@register_room')->name('register_room');
         Route::get('student_chonphong/{id}','StudentController@student_chonphong')->name('student_chonphong');
 
         #-----------Xem trạng thái đăng kí--------------------------------------------------------------------------------------
