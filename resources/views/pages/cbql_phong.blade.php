@@ -1,24 +1,9 @@
 @extends('master')
 @section('content')
 <div class="list_phong">
-	<h3 style="">
-         <i class="fa fa-arrow-circle-o-right"></i>
-            Danh sách phòng
-    </h3>
-	<form action="{{url('cbql_them_phong')}}" method="post" class="form-inline ">
-		@csrf
-		<label for="">Số phòng:</label>
-		<input name="sophong" type="number" min="0" required class="form-control"/>
-		<label for="">Số người tối đa:</label>
-		<input name="snmax" required  Type="number" min="0" class="form-control"/>
-		<label for="">Phòng cho:</label>
-		<select name="gioitinh" class="form-control">
-			<option value="Nam">Nam</option>
-			<option value="Nữ">Nữ</option>
-		</select>
-		<button class="btn btn-success" type="submit">Thêm phòng +</button>
-	</form>
-	<hr>
+	<a href="{{route('phong.add')}}" class="btn-success btn">Thêm phòng</a>
+	<br>
+	<br>
 	<table class="table table-bordered table-striped datatable" id="table_export">
 		<tr>
 			<th>STT</th>
@@ -27,7 +12,7 @@
 			<th>Số người tối đa</th>
 			<th>Giới tính</th>
 			<th>Khu KTX</th>
-			<!-- <th>Xem</th> -->
+			 <th>Xem</th>
 		</tr>
 		@foreach($ttphong as $key => $p)
 		<tr>
@@ -41,7 +26,12 @@
 				@endif
 			</td>
 			<td>{{$p->khuktx->tenkhu}}</td>
-			<!-- <td><a href="{{route('cbql_ttphong',$p->id)}}"><button>Xem thông tin</button></a></td> -->
+			<td>
+				<a class="btn-success btn" href="{{route('phong.detail',$p->id)}}">Xem chi tiết</a>
+				<form action="">
+					<button class="btn btn-danger">Xóa</button>
+				</form>
+			</td>
 		</tr>
 		@endforeach
 	</table>

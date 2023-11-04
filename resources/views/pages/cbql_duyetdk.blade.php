@@ -4,38 +4,47 @@
          <i class="fa fa-arrow-circle-o-right"></i>
             Danh sách sinh viên đăng ký phòng        
     </h3>
-    @if(count($list)==0)
-        <h4 class="thongbaoNull">Danh sách sinh viên đăng ký trống</h4>
-    @else
     <table class="table table-bordered table-striped datatable" id="table_export">
         <tr>
-            <th>Mssv</th>
+            <th>ID sinh viên</th>
             <th>Họ tên</th>
             <th>Phòng</th>
             <th>Trạng thái đăng ký</th>
+            <th>Thời gian bắt đầu ở</th>
+            <th>Thời gian kết thúc</th>
             <th>Ngày đăng ký</th>
-            <th>Xem thông tin</th>
-            <th>Chấp nhận</th>
-            <th>Hủy bỏ</th>
+            <th>Thao tác</th>
         </tr>
-        @foreach($list as $l)
-        <tr>
-            <td>{{$l->mssv}}</td>
-            <td>{{$l->name}}</td>
-            <td>
-                @foreach($ttphong as $t)
-                    @if($t->id==$l->id_phong)
-                        {{$t->sophong}}
-                    @endif
-                @endforeach
-            </td>
-            <td>{{$l->trangthaidk}}</td>
-            <td>{{$l->ngaydk}}</td>
-            <td><a href="{{route('get_cbql_ttsv',$l->mssv)}}"><button>Xem</button></a></td>
-            <td><a href="{{route('get_cbql_duyetdk',$l->mssv)}}"><button>Duyệt</button></a></td>
-            <td><a href="{{route('get_cbql_huydk',$l->mssv)}}"><button>Hủy</button></a></td>
-        </tr>
-        @endforeach
+        @if(count($phieu) > 0)
+            @foreach($phieu as $p)
+                <tr>
+                    <td>{{$p->student->id}}</td>
+                    <td>{{$p->student->name}}</td>
+                    <td>{{$p->room->khuktx->tenkhu}} - {{$p->room->sophong}}</td>
+                    <td>{{$p->status}}</td>
+                    <td>{{$p->start_date}}</td>
+                    <td>{{$p->end_date}}</td>
+                    <td>{{$p->created_at}}</td>
+                    <td style="display: flex">
+                        <form action="{{route('phieu.update')}}" method="post">
+                            @csrf
+                            <input type="hidden" value="{{$p->id}}" name="id">
+                            <input type="hidden" value="success" name="status">
+                            <button class="btn-success btn">Chấp nhận</button>
+                        </form>
+                        <form action="{{route('phieu.update')}}" method="post">
+                            @csrf
+                            <input type="hidden" value="{{$p->id}}" name="id">
+                            <input type="hidden" value="refuse" name="status">
+                            <button class="btn-danger btn">Từ chối</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        @else
+            <tr>
+                <td style="text-align: center" colspan="8">Không có dữ liệu</td>
+            </tr>
+        @endif
     </table>
-    @endif
 @endsection

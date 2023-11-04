@@ -47,17 +47,15 @@ class LoadController extends Controller
          return redirect()->back();
       }
 
-    #-----------Xem thông tin phòng-------------------------------------------------------------------------------------
     public function cbql_ttphong($id){
-        $list = phieudangky::where([
-            ['id_phong',$id],
-            ['nam',date('Y')],
-            ['trangthaidk','!=','cancelled']
-        ])->get();
-        return view('pages.cbql_ttphong',['list'=>$list]);
+//        $list = phieudangky::where([
+//            ['id_phong',$id],
+//            ['nam',date('Y')],
+//            ['trangthaidk','!=','cancelled']
+//        ])->get();
+//        return view('pages.cbql_ttphong',['list'=>$list]);
     }
 
-    #-----------Xoa SV trong phòng--------------------------------------------------------------------------------------
     public function get_cbql_xoasv($mssv){
         $id_phong = phieudangky::where([
             ['mssv',$mssv],

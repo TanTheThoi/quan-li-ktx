@@ -23,7 +23,7 @@
         <div class="page-container">
             <div class="sidebar-menu" style="min-height: 720px">
               <header class="logo-env">
-                <div class="logo"><img src="img/logo.png" style="max-height: 60px"></div>
+                <div class="logo"><img src="{{asset('img/logo.png')}}" style="max-height: 60px"></div>
                 <div class="sidebar-collapse" style="">
                     <a href="#" class="sidebar-collapse-icon with-animation">
                         <i class="entypo-menu"></i>
