@@ -20,6 +20,7 @@ Route::get('logout','AuthController@logout')->name('logout');
 Route::get('register','AuthController@getRegister')->name('register');
 Route::post('register','AuthController@postRegister');
 Route::get('forgot','AuthController@getForgot')->name('forgot');
+Route::post('forgot','AuthController@SendMail')->name('sendMail');
 Route::post('changePassword','LoadController@changePassword');
 
 
@@ -52,6 +53,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware([\App\Http\Middleware\CheckAdmin::class])->group(function () {
         Route::get('list','PageController@admin_list_cb')->name('admin_list_cb');
+        Route::get('khu','PageController@listKhu')->name('list-khu');
+        Route::get('add-khu','PageController@addKhu')->name('add-khu');
+        Route::post('add-khu','PageController@storeKhu')->name('store-khu');
+        Route::delete('delete-khu/{id}','PageController@deleteKhu')->name('delete-khu');
+        Route::get('khu/{id}','PageController@findKhu')->name('find-khu');
+        Route::put('update-khu/{id}','PageController@updateKhu')->name('update-khu');
 
         Route::get('info','PageController@admin_info_cb')->name('admin_info_cb');
         Route::post('info','LoadController@post_admin_info_cb');

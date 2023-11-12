@@ -13,6 +13,8 @@ use DB;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
@@ -24,6 +26,65 @@ class PageController extends Controller
         if(Auth::check()){
             view()->share('user',Auth::user());
             return view('pages.trangchu');
+        }
+    }
+    public function listKhu(){
+        $khu = khuktx::all();
+        return view('pages.list-khu',compact('khu'));
+    }
+    public function addKhu(){
+        return view('pages.add-khu');
+    }
+    public function storeKhu(Request $request){
+        $validator = Validator::make($request->all(), [
+            'tenkhu' => [
+                'required',
+                Rule::unique('khuktx'),
+            ],
+            'giaphong' => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $maxId = khuktx::max('id');
+        $data = $request->all();
+        $data['id'] = $maxId +1;
+        khuktx::create($data);
+        return redirect()->route('list-khu');
+    }
+    public function deleteKhu($id){
+        $khu = khuktx::find($id);
+        if($khu){
+            $khu->delete();
+            return redirect()->route('list-khu');
+        }
+        return redirect()->route('list-khu');
+    }
+    public function findKhu($id){
+        $khu = khuktx::find($id);
+        if($khu){
+            return view('pages.edit-khu',compact('khu'));
+        }
+        return redirect()->route('list-khu');
+    }
+    public function updateKhu($id,Request $request){
+        $validator = Validator::make($request->all(), [
+            'tenkhu' => [
+                'required',
+                Rule::unique('khuktx')->ignore($request->id),
+            ],
+            'giaphong' => 'required|numeric|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $khu = khuktx::find($id);
+
+
+        if ($khu) {
+            $khu->update($request->all());
+            return redirect()->route('list-khu');
         }
     }
     public function admin_list_cb(){

@@ -4,32 +4,21 @@
          	<i class="fa fa-arrow-circle-o-right"></i>
                 Danh sách thành viên trong phòng           
     </h3>
-    @if(count($list)==0)
-    	<h4 class="thongbaoNull">Danh sách thành viên phòng trống</h4>
-    @else
+
 	<div class="lsdk">
 		<table class="table table-bordered table-striped datatable" id="table_export">
 			<tr>
 				<th>Tên</th>
-				<th>Mã số sinh viên</th>
-				<th>Ngày sinh</th>
-				<th>Lớp</th>
-				<th>Khóa</th>
+				<th>Phòng</th>
+				<th>Thời gian hợp đồng</th>
 			</tr>
-			@foreach($list as $l)
+			@foreach($data as $item)
 			<tr>
-				<td>{{$l->name}}</td>
-				<td>{{$l->mssv}}</td>
-				@foreach($ttsv as $t)
-					@if($l->mssv == $t->mssv)
-						<td>{{$t->nssv}}</td>
-						<td>{{$t->lop}}</td>
-						<td>{{$t->khoa}}</td>
-					@endif
-				@endforeach
+				<td>{{$item->user[0]->name}}</td>
+				<td>{{$item->room[0]->sophong}}</td>
+				<td>Từ {{$item->start_date}} đến {{$item->end_date}}</td>
 			</tr>
 			@endforeach
 		</table>
 	</div>
-	@endif
 @endsection

@@ -22,7 +22,7 @@
                 <!----EDITING FORM STARTS-->
                 <div class="tab-pane box active" id="list" style="padding: 5px">
                     <div class="box-content">
-                        <form action="{{url('student_suatt')}}" method="post" class="form-horizontal form-groups-bordered validate" target="_top" enctype="multipart/form-data">
+                        <form method="get" class="form-horizontal form-groups-bordered validate" target="_top" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }} ">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Tên</label>
@@ -34,66 +34,6 @@
                                 <label class="col-sm-3 control-label">E-mail</label>
                                 <div class="col-sm-5">
                                     <label class=" control-label">{{Auth::user()->email}}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Mã số sinh viên</label>
-                                <div class="col-sm-5">
-                                    <label class=" control-label">{{$ttsv->mssv}}</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Số điện thoại</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="phone" value="{{$ttsv->sdt}}" required/>
-                                </div>
-                                <label class="col-sm-2 control-label">Ngày sinh</label>
-                                <div class="col-sm-3">
-                                    <input type="date" class="form-control datepicker " name="birthday" data-format="dd/mm/yyyy" value="{{$ttsv->nssv}}" data-start-view="2" required/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Giới tính</label>
-                                <div class="col-sm-3">
-                                    <select name="gtsv" class="form-control required">
-                                        @if($ttsv->gtsv=="nam")
-                                            <option value="">Chọn</option>
-                                            <option value="nam" selected>Nam</option>
-                                            <option value="nu">Nữ</option>
-                                        @elseif($ttsv->gtsv=="nu")
-                                            <option value="">Chọn</option>
-                                            <option value="nam">Nam</option>
-                                            <option value="nu" selected="">Nữ</option>
-                                        @else
-                                            <option value="">Chọn</option>
-                                            <option value="nam">Nam</option>
-                                            <option value="nu">Nữ</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <label class="col-sm-2 control-label">Quê Quán</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="qqsv" value="{{$ttsv->qqsv}}" required/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Lớp</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="lop" value="{{$ttsv->lop}}" required/>
-                                </div>
-                                <label class="col-sm-2 control-label">Khóa</label>
-                                <div class="col-sm-3">
-                                    <select name="khoa" class="form-control required">
-                                        @if($ttsv->khoa!=null)
-                                            <option value="{{$ttsv->khoa}}">{{strtoupper($ttsv->khoa)}}</option>
-                                        @endif
-                                        <option value="">Chọn</option>
-                                        <option value="k13">K13</option>
-                                        <option value="k14">K14</option>
-                                        <option value="k15">K15</option>
-                                        <option value="k16">K16</option>
-                                        <option value="k17">K17</option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">

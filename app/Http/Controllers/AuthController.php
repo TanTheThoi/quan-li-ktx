@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRegisterRequest;
+use App\Mail\MyMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Auth;
@@ -41,10 +43,21 @@ class AuthController extends Controller
     		if( Auth::attempt(['email' => $email, 'password' =>$password])) {
     			return redirect()->intended('/');
     		} else {
-    			return redirect()->back()->with(['flag'=>'danger','message'=>'Tài khoản hoặc mật khẩu không chính xác']);
     		}
     	}
 	}
+    public function sendMail(Request $request){
+        $user  = User::where('email',$request->email)->first();
+        if($user){
+            $pass = rand();
+            $user->update([
+                'password' => bcrypt($pass)
+            ]);
+            Mail::to($request->email)->send(new MyMail($pass));
+            return redirect()->back()->with(['flag'=>'danger','message'=>'Đã đổi mật khẩu thành công, Kiểm tra email để lấy mật khẩu']);
+        }
+        return redirect()->back()->with(['flag'=>'danger','message'=>'Email không tồn tại']);
+    }
 	public function logout(){
 		Auth::logout();
 		return redirect('login');

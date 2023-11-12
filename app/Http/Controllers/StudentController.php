@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\UserRoom;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -129,25 +130,15 @@ class StudentController extends Controller
 
     #----------Thông_tin_cá_nhân----------------------------------------------------------------------------------------
     public function student_ttcn(){
-        $ttsv = sinhvien::where('email', Auth::user()->email)->first();
-        return view('pages.Student_ttcn', ['ttsv' => $ttsv]);
+                $student = Auth::user();
+        return view('pages.Student_ttcn',compact('student'));
     }
 
-    #----------Thành_viên_cùng_phòng------------------------------------------------------------------------------------
     public function student_bancp(){
-        $mssv = sinhvien::where('email',Auth::user()->email)->value('mssv');
-        $id_phong = phieudangky::where([
-            ['mssv',$mssv],
-            ['nam',date('Y')],
-            ['trangthaidk','success']
-        ])->value('id_phong');
-        $list = phieudangky::where([
-            ['nam',date('Y')],
-            ['trangthaidk','success'],
-            ['id_phong',$id_phong]
-        ])->get();
-        $ttsv = sinhvien::all();
-        return view('pages.Student_bancp',['list'=>$list,'ttsv'=>$ttsv]);
+        $id = Auth::user()->id;
+        $info =  UserRoom::where('thanhtoan',1)->where('user_id',$id)->where('end_date','>=',date('Y-m-d'))->first();
+        $data =  UserRoom::with('user','room')->where('thanhtoan',1)->where('phong_id',$info->phong_id)->where('end_date','>=',date('Y-m-d'))->get();
+        return view('pages.Student_bancp',compact('data'));
     }
     #----------Đổi mật khẩu---------------------------------------------------------------------------------------------
     public function student_doimk(){
