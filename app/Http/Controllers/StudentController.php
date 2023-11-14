@@ -137,7 +137,7 @@ class StudentController extends Controller
         $id = Auth::user()->id;
         $info =  UserRoom::where('thanhtoan',1)->where('user_id',$id)->where('end_date','>=',date('Y-m-d'))->first();
         if($info){
-             $data =  UserRoom::with('user','room')->where('thanhtoan',1)->where('phong_id',$info->phong_id)->where('end_date','>=',date('Y-m-d'))->get();
+             $data =  UserRoom::with('user','room')->where('thanhtoan',1)->where('phong_id',$info->phong_id)->where('status',1)->where('end_date','>=',date('Y-m-d'))->get();
         }else{
             $data = null;
         }

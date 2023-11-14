@@ -63,9 +63,9 @@ class CanboController extends Controller
         $phong->update([
             'sncur'=> $phong->sncur -1,
         ]);
-
+        $student = UserRoom::find($student->id);
         $student->update([
-            'status'=> '0'
+            'status'=> 0
         ]);
       
         return redirect()->back()->with('success', 'Xóa thành công');

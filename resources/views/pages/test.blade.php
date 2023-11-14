@@ -31,13 +31,15 @@
                             @if($item->end_date < date('Y-m-d'))
                                 <td>Quá thời hạn</td>
                             @else
-                                @if(isset($item->getStatus->thanhtoan) && $item->getStatus->thanhtoan)
+                                @if(isset($item->getStatus->thanhtoan) && $item->getStatus->thanhtoan && $item->getStatus->status == 1)
                                     <td>
                                         Đã thanh toán
                                     </td>
                                 @else
                                    @if($item->status == 'wait')
                                        <td>Chưa được xác nhận</td>
+                                    @elseif($item->getStatus->status == 0)
+                                        <td>Ban da bi duoi khoi phong</td>
                                     @else
                                         <td>
                                             <form action="{{route('checkout',$item->id)}}" method="post">

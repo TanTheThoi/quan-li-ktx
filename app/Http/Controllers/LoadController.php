@@ -193,7 +193,7 @@ class LoadController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $check = UserRoom::where('user_id',Auth::user()->id)->first();
+        $check = UserRoom::where('user_id',Auth::user()->id)->where('status',1)->first();
         if($check){
             return redirect()->back()->with('error', 'Bạn đã đăng ký phòng vui lòng kiểm tra lại');
         }

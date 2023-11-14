@@ -12,7 +12,7 @@
 				<th>Phòng</th>
 				<th>Thời gian hợp đồng</th>
 			</tr>
-			@if($data)
+			@if(count($data))
 			@foreach($data as $item)
 			<tr>
 				<td>{{$item->user[0]->name}}</td>

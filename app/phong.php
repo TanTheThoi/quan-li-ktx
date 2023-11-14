@@ -16,7 +16,7 @@ class phong extends Model
     }
 
     public function user(){
-        return $this->hasMany('App\UserRoom', 'phong_id', 'id')->where('end_date', '>=', date('Y-m-d'));
+        return $this->hasMany('App\UserRoom', 'phong_id', 'id')->where('status',1)->where('end_date', '>=', date('Y-m-d'));
     }
 
 }
