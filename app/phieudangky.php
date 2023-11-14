@@ -15,7 +15,7 @@ class phieudangky extends Model
         return $this->belongsTo('App\users','student_id','id');
     }
     public function getStatus(){
-        return $this->belongsTo('App\UserRoom','student_id','user_id');
+        return $this->belongsTo('App\UserRoom', 'student_id', 'user_id');
     }
 
 

@@ -12,6 +12,7 @@
 				<th>Phòng</th>
 				<th>Thời gian hợp đồng</th>
 			</tr>
+			@if($data)
 			@foreach($data as $item)
 			<tr>
 				<td>{{$item->user[0]->name}}</td>
@@ -19,6 +20,9 @@
 				<td>Từ {{$item->start_date}} đến {{$item->end_date}}</td>
 			</tr>
 			@endforeach
+			@else
+			<tr><td colspan="3" style="text-align: center">Bạn chưa đăng ký phòng</td></tr>
+			@endif
 		</table>
 	</div>
 @endsection

@@ -42,8 +42,7 @@ class StudentController extends Controller
                 $item->monthsDifference =  $item->monthsDifference *  $item->room->khuktx->giaphong;
             }
         }
-
-        return view('pages.Student_xemdk',compact('data'));
+        return view('pages.test',compact('data'));
     }
 
     public function checkout($id){
@@ -137,7 +136,11 @@ class StudentController extends Controller
     public function student_bancp(){
         $id = Auth::user()->id;
         $info =  UserRoom::where('thanhtoan',1)->where('user_id',$id)->where('end_date','>=',date('Y-m-d'))->first();
-        $data =  UserRoom::with('user','room')->where('thanhtoan',1)->where('phong_id',$info->phong_id)->where('end_date','>=',date('Y-m-d'))->get();
+        if($info){
+             $data =  UserRoom::with('user','room')->where('thanhtoan',1)->where('phong_id',$info->phong_id)->where('end_date','>=',date('Y-m-d'))->get();
+        }else{
+            $data = null;
+        }
         return view('pages.Student_bancp',compact('data'));
     }
     #----------Đổi mật khẩu---------------------------------------------------------------------------------------------
@@ -151,5 +154,3 @@ class StudentController extends Controller
         return view('pages.Student_cbql', ['cbql' => $cbql]);
     }
 }
-
-

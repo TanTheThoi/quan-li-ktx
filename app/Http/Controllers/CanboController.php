@@ -59,13 +59,15 @@ class CanboController extends Controller
 
     public function delete_sutdent($id){
         $student =UserRoom::where('user_id',$id)->first();
-        $student->delete();
         $phong = phong::find($student->phong_id);
         $phong->update([
             'sncur'=> $phong->sncur -1,
         ]);
-        $data = UserRoom::where('user_id',$student->id)->fisrt();
-        $data->delete();
+
+        $student->update([
+            'status'=> '0'
+        ]);
+      
         return redirect()->back()->with('success', 'Xóa thành công');
     }
 
